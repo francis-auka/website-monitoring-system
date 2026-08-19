@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   description: "Overview of all monitored websites — real-time availability, SSL, and DNS status.",
 };
 
-// Revalidate every 5 minutes so the home page always shows fresh data
 export const revalidate = 300;
 
 export default async function HomePage() {
@@ -25,9 +24,9 @@ export default async function HomePage() {
       {/* Header */}
       <div style={{ marginBottom: "2.5rem" }}>
         <h1>
-          <span className="gradient-text">Site Monitor</span>
+          Site <span className="sky-text">Monitor</span>
         </h1>
-        <p style={{ color: "var(--muted)", marginTop: "0.5rem", fontSize: "0.9375rem" }}>
+        <p style={{ color: "var(--muted)", marginTop: "0.5rem", fontSize: "0.9375rem", fontWeight: 500 }}>
           Real-time health dashboard — checks run every 2 hours.
         </p>
       </div>
@@ -41,9 +40,9 @@ export default async function HomePage() {
           marginBottom: "2.5rem",
         }}
       >
-        <SummaryTile value={ok} label="Online" color="var(--green)" />
-        <SummaryTile value={warn} label="Warning" color="var(--yellow)" />
-        <SummaryTile value={down} label="Down" color="var(--red)" />
+        <SummaryTile value={ok} label="Online" color="var(--sky-primary)" />
+        <SummaryTile value={warn} label="Warning" color="var(--sky-bright)" />
+        <SummaryTile value={down} label="Down" color="var(--sky-dark)" />
       </div>
 
       {/* Site grid */}
@@ -63,7 +62,7 @@ export default async function HomePage() {
         </div>
       )}
 
-      <p style={{ marginTop: "3rem", fontSize: "0.75rem", color: "var(--subtle)", textAlign: "center" }}>
+      <p style={{ marginTop: "3rem", fontSize: "0.75rem", color: "var(--subtle)", textAlign: "center", fontWeight: 500 }}>
         Page refreshes every 5 minutes · Powered by Supabase + Next.js
       </p>
     </div>
@@ -82,16 +81,16 @@ function SummaryTile({
   return (
     <div
       style={{
-        background: "var(--surface)",
+        background: "#ffffff",
         border: `1px solid var(--border)`,
-        borderTop: `3px solid ${color}`,
-        borderRadius: "0.75rem",
+        borderTop: `4px solid ${color}`,
+        borderRadius: 0,
         padding: "1.25rem",
         textAlign: "center",
       }}
     >
-      <p style={{ fontSize: "2rem", fontWeight: 800, color }}>{value}</p>
-      <p style={{ fontSize: "0.75rem", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: "0.25rem" }}>
+      <p style={{ fontSize: "2.25rem", fontWeight: 800, color }}>{value}</p>
+      <p style={{ fontSize: "0.75rem", color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: "0.25rem", fontWeight: 600 }}>
         {label}
       </p>
     </div>
@@ -105,13 +104,16 @@ function EmptyState() {
         textAlign: "center",
         padding: "5rem 2rem",
         color: "var(--muted)",
+        background: "#ffffff",
+        border: "1px solid var(--border)",
+        borderRadius: 0,
       }}
     >
-      <p style={{ fontSize: "3rem", marginBottom: "1rem" }}>📡</p>
+      <p style={{ fontSize: "3rem", marginBottom: "1rem", color: "var(--sky-primary)" }}>📡</p>
       <h2 style={{ color: "var(--text)", marginBottom: "0.5rem" }}>No data yet</h2>
-      <p style={{ fontSize: "0.875rem", maxWidth: "380px", margin: "0 auto", lineHeight: 1.6 }}>
-        Run <code style={{ color: "var(--accent)", background: "var(--surface-2)", padding: "0.1em 0.4em", borderRadius: "4px" }}>python monitor.py --once</code> to generate your first report,
-        then make sure your Supabase credentials are set in <code style={{ color: "var(--accent)", background: "var(--surface-2)", padding: "0.1em 0.4em", borderRadius: "4px" }}>.env</code>.
+      <p style={{ fontSize: "0.875rem", maxWidth: "420px", margin: "0 auto", lineHeight: 1.6 }}>
+        Run <code style={{ color: "var(--sky-primary)", background: "var(--sky-light)", padding: "0.2em 0.5em", borderRadius: 0, border: "1px solid var(--sky-border)", fontWeight: 600 }}>python monitor.py --once</code> to generate your first report,
+        then set your Supabase credentials in <code style={{ color: "var(--sky-primary)", background: "var(--sky-light)", padding: "0.2em 0.5em", borderRadius: 0, border: "1px solid var(--sky-border)", fontWeight: 600 }}>.env</code>.
       </p>
     </div>
   );

@@ -21,7 +21,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Revalidate every 2 minutes for the detail page
 export const revalidate = 120;
 
 export default async function SiteDetailPage({ params }: PageProps) {
@@ -42,11 +41,11 @@ export default async function SiteDetailPage({ params }: PageProps) {
     <div className="page-wrapper" style={{ paddingTop: "2rem" }}>
       {/* Breadcrumb */}
       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.5rem" }}>
-        <Link href="/" style={{ color: "var(--muted)", fontSize: "0.875rem", textDecoration: "none" }}>
-          All Sites
+        <Link href="/" style={{ color: "var(--sky-primary)", fontSize: "0.875rem", textDecoration: "none", fontWeight: 600 }}>
+          ← All Sites
         </Link>
         <span style={{ color: "var(--subtle)" }}>/</span>
-        <span style={{ fontSize: "0.875rem", color: "var(--text)" }}>{displayName}</span>
+        <span style={{ fontSize: "0.875rem", color: "var(--text)", fontWeight: 600 }}>{displayName}</span>
       </div>
 
       {/* Page header */}
@@ -65,7 +64,7 @@ export default async function SiteDetailPage({ params }: PageProps) {
             href={siteUrl}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontSize: "0.875rem", color: "var(--muted)", textDecoration: "none" }}
+            style={{ fontSize: "0.875rem", color: "var(--sky-primary)", textDecoration: "none", fontWeight: 500 }}
           >
             {siteUrl} ↗
           </a>
@@ -73,7 +72,7 @@ export default async function SiteDetailPage({ params }: PageProps) {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.5rem" }}>
           <StatusBadge report={latest} />
           {latest && (
-            <span style={{ fontSize: "0.7rem", color: "var(--subtle)" }}>
+            <span style={{ fontSize: "0.7rem", color: "var(--muted)", fontWeight: 500 }}>
               Last check: {format(new Date(latest.checked_at), "MMM d, yyyy HH:mm")} UTC
             </span>
           )}
@@ -137,11 +136,11 @@ function DetailTile({
   ok: boolean | null | undefined;
 }) {
   const color =
-    ok === true ? "var(--green)" : ok === false ? "var(--red)" : "var(--text)";
+    ok === true ? "var(--sky-primary)" : ok === false ? "var(--sky-dark)" : "var(--text)";
   return (
-    <div className="stat-tile">
+    <div className="stat-tile" style={{ borderRadius: 0 }}>
       <p className="label">{label}</p>
-      <p style={{ fontSize: "1rem", fontWeight: 700, color, wordBreak: "break-all", marginTop: "0.3rem" }}>
+      <p style={{ fontSize: "1rem", fontWeight: 800, color, wordBreak: "break-all", marginTop: "0.3rem" }}>
         {value}
       </p>
     </div>
@@ -158,7 +157,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="card" style={{ marginBottom: "1.25rem" }}>
+    <div className="card" style={{ marginBottom: "1.25rem", borderRadius: 0 }}>
       <div
         style={{
           display: "flex",
@@ -169,7 +168,7 @@ function Section({
       >
         <h2>{title}</h2>
         {badge && (
-          <span className="badge badge-muted">{badge}</span>
+          <span className="badge badge-muted" style={{ borderRadius: 0 }}>{badge}</span>
         )}
       </div>
       {children}

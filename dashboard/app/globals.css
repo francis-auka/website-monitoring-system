@@ -1,40 +1,62 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
-/* ── Design tokens ─────────────────────────────────────────── */
-:root {
-  --bg:        #0a0d14;
-  --surface:   #111827;
-  --surface-2: #1a2235;
-  --border:    #1e2d45;
-  --border-2:  #243352;
-  --text:      #e2e8f0;
-  --muted:     #64748b;
-  --subtle:    #334155;
-
-  --green:     #10b981;
-  --green-bg:  rgba(16, 185, 129, 0.1);
-  --green-border: rgba(16, 185, 129, 0.3);
-
-  --red:       #ef4444;
-  --red-bg:    rgba(239, 68, 68, 0.1);
-  --red-border: rgba(239, 68, 68, 0.3);
-
-  --yellow:    #f59e0b;
-  --yellow-bg: rgba(245, 158, 11, 0.1);
-  --yellow-border: rgba(245, 158, 11, 0.3);
-
-  --blue:      #3b82f6;
-  --blue-bg:   rgba(59, 130, 246, 0.1);
-
-  --accent:    #6366f1;
-  --accent-2:  #8b5cf6;
+@theme {
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-full: 0px;
 }
 
-/* ── Base ──────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── White & Sky-Blue Design Tokens ────────────────────────── */
+:root {
+  --bg:          #ffffff;
+  --surface:     #f8fafc;
+  --surface-2:   #f1f5f9;
+  --border:      #cbd5e1;
+  --border-2:    #0284c7;
 
-html { scroll-behavior: smooth; }
+  --text:        #0f172a;
+  --muted:       #475569;
+  --subtle:      #94a3b8;
+
+  /* Sky-Blue Palette */
+  --sky-primary: #0284c7; /* Sky 600 */
+  --sky-bright:  #0ea5e9; /* Sky 500 */
+  --sky-light:   #e0f2fe; /* Sky 100 */
+  --sky-border:  #38bdf8; /* Sky 400 */
+  --sky-dark:    #0369a1; /* Sky 700 */
+
+  /* Status Tokens (Strict Sky-Blue & Neutral Palette) */
+  --status-online-bg:     #f0f9ff;
+  --status-online-color:  #0284c7;
+  --status-online-border: #7dd3fc;
+
+  --status-warn-bg:       #e0f2fe;
+  --status-warn-color:    #0369a1;
+  --status-warn-border:   #38bdf8;
+
+  --status-down-bg:       #0284c7;
+  --status-down-color:    #ffffff;
+  --status-down-border:   #0369a1;
+}
+
+/* ── Global Reset & Zero Border Radius Enforcement ─────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0px !important; /* STRICT ZERO RADIUS EVERYWHERE */
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
 
 body {
   font-family: "Inter", system-ui, sans-serif;
@@ -47,12 +69,12 @@ body {
 /* ── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--surface); }
-::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--sky-border); border-radius: 0px !important; }
 
 /* ── Typography ────────────────────────────────────────────── */
-h1 { font-size: 1.875rem; font-weight: 800; letter-spacing: -0.03em; }
-h2 { font-size: 1.25rem;  font-weight: 700; letter-spacing: -0.02em; }
-h3 { font-size: 1rem;     font-weight: 600; }
+h1 { font-size: 1.875rem; font-weight: 800; letter-spacing: -0.03em; color: var(--text); }
+h2 { font-size: 1.25rem;  font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+h3 { font-size: 1rem;     font-weight: 600; color: var(--text); }
 
 .mono { font-family: "JetBrains Mono", monospace; }
 
@@ -63,82 +85,101 @@ h3 { font-size: 1rem;     font-weight: 600; }
   padding: 0 1.25rem;
 }
 
-/* ── Card ──────────────────────────────────────────────────── */
+/* ── Flat Sharp Card ────────────────────────────────────────── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-radius: 0px !important;
   padding: 1.5rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .card:hover {
-  border-color: var(--border-2);
-  box-shadow: 0 0 0 1px var(--border-2), 0 8px 32px rgba(0,0,0,0.4);
+  border-color: var(--sky-primary);
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
 }
 
 .card-inner {
-  background: var(--surface-2);
+  background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 0.75rem;
+  border-radius: 0px !important;
   padding: 1.25rem;
 }
 
-/* ── Status badge ──────────────────────────────────────────── */
+/* ── Flat Sharp Badges ─────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0px !important;
   font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.badge-green  { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }
-.badge-red    { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border); }
-.badge-yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
-.badge-muted  { background: rgba(100,116,139,0.1); color: var(--muted); border: 1px solid rgba(100,116,139,0.2); }
+.badge-green {
+  background: var(--status-online-bg);
+  color: var(--status-online-color);
+  border: 1px solid var(--status-online-border);
+}
 
-/* ── Status dot ────────────────────────────────────────────── */
+.badge-yellow {
+  background: var(--status-warn-bg);
+  color: var(--status-warn-color);
+  border: 1px solid var(--status-warn-border);
+}
+
+.badge-red {
+  background: var(--status-down-bg);
+  color: var(--status-down-color);
+  border: 1px solid var(--status-down-border);
+}
+
+.badge-muted {
+  background: #f1f5f9;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ── Status Square (Replacing Round Dots for Flat Aesthetics) ── */
 .dot {
-  width: 8px; height: 8px;
-  border-radius: 9999px;
+  width: 8px;
+  height: 8px;
+  border-radius: 0px !important;
   flex-shrink: 0;
 }
-.dot-green  { background: var(--green);  box-shadow: 0 0 8px var(--green); }
-.dot-red    { background: var(--red);    box-shadow: 0 0 8px var(--red); }
-.dot-yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+.dot-green  { background: var(--sky-primary); }
+.dot-yellow { background: var(--sky-bright); }
+.dot-red    { background: var(--sky-dark); }
 .dot-pulse  { animation: pulse 2s ease-in-out infinite; }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.9); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
 }
 
 /* ── Stat tile ─────────────────────────────────────────────── */
 .stat-tile {
-  background: var(--surface-2);
+  background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 0.75rem;
+  border-radius: 0px !important;
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
 }
-.stat-tile .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
-.stat-tile .value { font-size: 1.875rem; font-weight: 800; letter-spacing: -0.03em; }
+.stat-tile .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.stat-tile .value { font-size: 1.875rem; font-weight: 800; letter-spacing: -0.03em; color: var(--sky-primary); }
 
 /* ── Navbar ────────────────────────────────────────────────── */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: rgba(10, 13, 20, 0.85);
-  border-bottom: 1px solid var(--border);
+  background: #ffffff;
+  border-bottom: 2px solid var(--sky-primary);
 }
 
 /* ── Site card link ─────────────────────────────────────────── */
@@ -161,27 +202,25 @@ h3 { font-size: 1rem;     font-weight: 600; }
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0px !important;
   transition: background 0.15s;
   font-size: 0.8125rem;
+  border-bottom: 1px solid var(--border);
 }
-.timeline-row:hover { background: var(--surface-2); }
-.timeline-header { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.timeline-row:hover { background: var(--sky-light); }
+.timeline-header { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; border-bottom: 2px solid var(--sky-primary); }
 
-/* ── Gradient text ─────────────────────────────────────────── */
-.gradient-text {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── Sky Blue Accent Text ──────────────────────────────────── */
+.sky-text {
+  color: var(--sky-primary);
 }
 
 /* ── Loading shimmer ────────────────────────────────────────── */
 .shimmer {
-  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background: linear-gradient(90deg, #f1f5f9 25%, #e0f2fe 50%, #f1f5f9 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 0.5rem;
+  border-radius: 0px !important;
 }
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
@@ -189,8 +228,8 @@ h3 { font-size: 1rem;     font-weight: 600; }
 }
 
 /* ── Uptime bar ─────────────────────────────────────────────── */
-.uptime-bar { height: 6px; border-radius: 9999px; background: var(--border); overflow: hidden; }
-.uptime-fill { height: 100%; border-radius: 9999px; transition: width 0.8s ease; }
+.uptime-bar { height: 8px; border-radius: 0px !important; background: var(--border); overflow: hidden; }
+.uptime-fill { height: 100%; border-radius: 0px !important; transition: width 0.8s ease; }
 
 /* ── Mobile responsiveness ─────────────────────────────────── */
 @media (max-width: 640px) {

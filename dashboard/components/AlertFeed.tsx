@@ -9,7 +9,7 @@ interface Props {
 }
 
 const iconFor = (report: MonitorReport) => {
-  if (!report.avail_ok) return "🔴";
+  if (!report.avail_ok) return "🚨";
   if (report.dns_ok === false) return "🌐";
   if (report.ssl_ok === false) return "🔒";
   if ((report.content_flagged_keywords?.length ?? 0) > 0) return "⚠️";
@@ -48,7 +48,7 @@ export default function AlertFeed({ alerts }: Props) {
                 <span
                   style={{
                     fontSize: "0.8125rem",
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--text)",
                   }}
                 >
@@ -61,10 +61,11 @@ export default function AlertFeed({ alerts }: Props) {
                     key={i}
                     style={{
                       fontSize: "0.8rem",
-                      color: "var(--muted)",
-                      background: "var(--surface-2)",
-                      border: "1px solid var(--border)",
-                      borderRadius: "0.375rem",
+                      fontWeight: 600,
+                      color: "var(--sky-dark)",
+                      background: "var(--sky-light)",
+                      border: "1px solid var(--sky-border)",
+                      borderRadius: 0,
                       padding: "0.25rem 0.625rem",
                       display: "inline-block",
                     }}

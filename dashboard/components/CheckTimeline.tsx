@@ -15,12 +15,14 @@ function BoolCell({ val, trueLabel = "OK", falseLabel = "FAIL" }: { val: boolean
     <span
       style={{
         fontSize: "0.7rem",
-        fontWeight: 600,
-        color: val ? "var(--green)" : "var(--red)",
-        background: val ? "var(--green-bg)" : "var(--red-bg)",
-        border: `1px solid ${val ? "var(--green-border)" : "var(--red-border)"}`,
-        borderRadius: "4px",
-        padding: "0.1rem 0.4rem",
+        fontWeight: 700,
+        color: val ? "var(--sky-primary)" : "#ffffff",
+        background: val ? "var(--sky-light)" : "var(--sky-dark)",
+        border: `1px solid ${val ? "var(--sky-border)" : "var(--sky-dark)"}`,
+        borderRadius: 0,
+        padding: "0.15rem 0.5rem",
+        display: "inline-block",
+        letterSpacing: "0.03em",
       }}
     >
       {val ? trueLabel : falseLabel}
@@ -52,7 +54,7 @@ export default function CheckTimeline({ reports }: Props) {
             {format(new Date(r.checked_at), "MMM d HH:mm")}
           </span>
           <BoolCell val={r.overall_ok} trueLabel="UP" falseLabel="DOWN" />
-          <span className="col-hide" style={{ fontSize: "0.8125rem", color: r.avail_response_time_ms == null ? "var(--muted)" : (r.avail_response_time_ms > 1500 ? "var(--yellow)" : "var(--text)") }}>
+          <span className="col-hide" style={{ fontSize: "0.8125rem", color: r.avail_response_time_ms == null ? "var(--muted)" : (r.avail_response_time_ms > 1500 ? "var(--sky-dark)" : "var(--text)"), fontWeight: 600 }}>
             {r.avail_response_time_ms != null ? `${r.avail_response_time_ms.toFixed(0)} ms` : "—"}
           </span>
           <span className="col-hide">

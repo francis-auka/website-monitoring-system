@@ -44,11 +44,9 @@ export default function ResponseTimeChart({ reports }: Props) {
   const innerWidth = width - padding.left - padding.right;
   const innerHeight = height - padding.top - padding.bottom;
 
-  // Max value calculation (min 1000ms for scale)
   const validMs = rawData.map((d) => d.ms).filter((v): v is number => v !== null);
   const maxMs = Math.max(1600, ...validMs) * 1.1;
 
-  // Calculate coordinates for points
   const points: Point[] = rawData.map((d, index) => {
     const x = padding.left + (index / Math.max(1, rawData.length - 1)) * innerWidth;
     const yVal = d.ms !== null ? d.ms : maxMs;
@@ -56,25 +54,20 @@ export default function ResponseTimeChart({ reports }: Props) {
     return { ...d, x, y };
   });
 
-  // Build SVG Path string for line
   const pathD = points.reduce((acc, point, i) => {
     if (point.ms === null) return acc;
     if (i === 0 || acc === "") return `M ${point.x} ${point.y}`;
     return `${acc} L ${point.x} ${point.y}`;
   }, "");
 
-  // Area path below the line
   const areaD = pathD
     ? `${pathD} L ${points[points.length - 1].x} ${height - padding.bottom} L ${points[0].x} ${height - padding.bottom} Z`
     : "";
 
-  // Y-axis ticks
   const yTicks = [0, Math.round(maxMs * 0.33), Math.round(maxMs * 0.66), Math.round(maxMs)];
-  // X-axis ticks (pick max 5 ticks)
   const step = Math.max(1, Math.floor(rawData.length / 5));
   const xTicks = points.filter((_, idx) => idx % step === 0 || idx === points.length - 1);
 
-  // Reference line for 1500ms
   const refY = padding.top + innerHeight - (1500 / maxMs) * innerHeight;
 
   return (
@@ -85,8 +78,8 @@ export default function ResponseTimeChart({ reports }: Props) {
       >
         <defs>
           <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.0" />
+            <stop offset="0%" stopColor="var(--sky-primary)" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="var(--sky-primary)" stopOpacity="0.0" />
           </linearGradient>
         </defs>
 
@@ -101,13 +94,14 @@ export default function ResponseTimeChart({ reports }: Props) {
                 x2={width - padding.right}
                 y2={y}
                 stroke="var(--border)"
-                strokeDasharray="3 3"
+                strokeDasharray="2 2"
               />
               <text
                 x={padding.left - 8}
                 y={y + 4}
                 fill="var(--muted)"
                 fontSize="10"
+                fontWeight="500"
                 textAnchor="end"
               >
                 {tick}ms
@@ -124,6 +118,7 @@ export default function ResponseTimeChart({ reports }: Props) {
             y={height - 8}
             fill="var(--muted)"
             fontSize="10"
+            fontWeight="500"
             textAnchor="middle"
           >
             {tick.time}
@@ -138,18 +133,19 @@ export default function ResponseTimeChart({ reports }: Props) {
               y1={refY}
               x2={width - padding.right}
               y2={refY}
-              stroke="var(--yellow)"
+              stroke="var(--sky-dark)"
               strokeDasharray="4 4"
-              strokeWidth="1"
+              strokeWidth="1.5"
             />
             <text
               x={width - padding.right}
               y={refY - 4}
-              fill="var(--yellow)"
+              fill="var(--sky-dark)"
               fontSize="9"
+              fontWeight="700"
               textAnchor="end"
             >
-              1.5s warning
+              1.5s warning limit
             </text>
           </g>
         )}
@@ -162,32 +158,37 @@ export default function ResponseTimeChart({ reports }: Props) {
           <path
             d={pathD}
             fill="none"
-            stroke="var(--accent)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            stroke="var(--sky-primary)"
+            strokeWidth="2.5"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
           />
         )}
 
-        {/* Points / Dots */}
-        {points.map((p, i) => (
-          <g key={i}>
-            <circle
-              cx={p.x}
-              cy={p.y}
-              r={hoveredPoint === p ? 5 : 3.5}
-              fill={p.ok ? "var(--accent)" : "var(--red)"}
-              stroke="var(--surface)"
-              strokeWidth="1.5"
-              style={{ cursor: "pointer", transition: "r 0.15s ease" }}
-              onMouseEnter={() => setHoveredPoint(p)}
-              onMouseLeave={() => setHoveredPoint(null)}
-            />
-          </g>
-        ))}
+        {/* Points / Flat Sharp Square Markers */}
+        {points.map((p, i) => {
+          const isHovered = hoveredPoint === p;
+          const size = isHovered ? 8 : 6;
+          return (
+            <g key={i}>
+              <rect
+                x={p.x - size / 2}
+                y={p.y - size / 2}
+                width={size}
+                height={size}
+                fill={p.ok ? "var(--sky-primary)" : "var(--sky-dark)"}
+                stroke="#ffffff"
+                strokeWidth="1.5"
+                style={{ cursor: "pointer", transition: "all 0.1s ease" }}
+                onMouseEnter={() => setHoveredPoint(p)}
+                onMouseLeave={() => setHoveredPoint(null)}
+              />
+            </g>
+          );
+        })}
       </svg>
 
-      {/* Custom Tooltip overlay */}
+      {/* Flat Sharp Tooltip overlay */}
       {hoveredPoint && (
         <div
           style={{
@@ -195,23 +196,23 @@ export default function ResponseTimeChart({ reports }: Props) {
             top: `${(hoveredPoint.y / height) * 100}%`,
             left: `${(hoveredPoint.x / width) * 100}%`,
             transform: "translate(-50%, -120%)",
-            background: "var(--surface-2)",
-            border: "1px solid var(--border-2)",
-            borderRadius: "0.5rem",
+            background: "#ffffff",
+            border: "2px solid var(--sky-primary)",
+            borderRadius: 0,
             padding: "0.5rem 0.75rem",
             fontSize: "0.75rem",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+            boxShadow: "0 4px 12px rgba(2, 132, 199, 0.15)",
             pointerEvents: "none",
             zIndex: 10,
             whiteSpace: "nowrap",
           }}
         >
-          <p style={{ color: "var(--muted)", marginBottom: "0.2rem" }}>{hoveredPoint.time}</p>
-          <p style={{ fontWeight: 700, color: hoveredPoint.ok ? "var(--green)" : "var(--red)" }}>
+          <p style={{ color: "var(--muted)", marginBottom: "0.2rem", fontWeight: 600 }}>{hoveredPoint.time}</p>
+          <p style={{ fontWeight: 800, color: hoveredPoint.ok ? "var(--sky-primary)" : "var(--sky-dark)" }}>
             {hoveredPoint.ms != null ? `${hoveredPoint.ms} ms` : "Unreachable"}
           </p>
           {hoveredPoint.status && (
-            <p style={{ color: "var(--muted)", fontSize: "0.7rem" }}>HTTP {hoveredPoint.status}</p>
+            <p style={{ color: "var(--muted)", fontSize: "0.7rem", marginTop: "0.1rem" }}>HTTP {hoveredPoint.status}</p>
           )}
         </div>
       )}
