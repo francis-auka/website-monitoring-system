@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function HomePage() {
-  let reports = await fetchAllSitesLatest().catch(() => []);
+  const reports = await fetchAllSitesLatest().catch(() => []);
 
   const total = reports.length;
   const down = reports.filter((r) => r.overall_ok === false).length;
