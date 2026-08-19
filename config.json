@@ -1,0 +1,53 @@
+{
+  "_comment": "Add as many sites as you like to the 'sites' array. Each site_id must match a row in the Supabase monitor_sites table.",
+  "sites": [
+    {
+      "site_id": "sportykenya",
+      "site_url": "https://sportykenya.co.ke",
+      "display_name": "Sporty Kenya",
+      "dns": {
+        "_comment": "Run 'python monitor.py --baseline' AFTER confirming DNS is clean to auto-record current nameservers.",
+        "expected_nameservers": [
+          "ns1.cloudoon.com",
+          "ns2.cloudoon.net",
+          "ns3.cloudoon.org"
+        ]
+      },
+      "content": {
+        "blacklist_keywords": [
+          "casino",
+          "bet now",
+          "sportybet-alt",
+          "gambling",
+          "slot machine",
+          "jackpot",
+          "free spins",
+          "1xbet",
+          "betway",
+          "melbet"
+        ]
+      }
+    }
+  ],
+  "alerts": {
+    "email": {
+      "enabled": true,
+      "smtp_host": "smtp.gmail.com",
+      "smtp_port": 465,
+      "sender": "francisauka7@gmail.com",
+      "app_password": "YOUR_GMAIL_APP_PASSWORD",
+      "recipients": [
+        "francisauka7@gmail.com"
+      ]
+    },
+    "sms": {
+      "enabled": false,
+      "username": "YOUR_AFRICASTALKING_USERNAME",
+      "api_key": "YOUR_AFRICASTALKING_API_KEY",
+      "sender_id": null,
+      "recipients": [
+        "+254700000000"
+      ]
+    }
+  }
+}

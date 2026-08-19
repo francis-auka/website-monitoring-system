@@ -1,0 +1,22 @@
+# Environment variables & secrets
+.env
+dashboard/.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.log
+baseline*.json
+reports/
+
+# Node / Next.js
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
