@@ -92,8 +92,13 @@ def get_supabase() -> "SupabaseClient | None":
         return _supabase_client
     if not SUPABASE_AVAILABLE:
         return None
-    url = os.getenv("SUPABASE_URL", "").strip()
-    key = os.getenv("SUPABASE_ANON_KEY", "").strip()
+    url = (os.getenv("SUPABASE_URL") or os.getenv("NEXT_PUBLIC_SUPABASE_URL") or "").strip()
+    key = (
+        os.getenv("SUPABASE_ANON_KEY")
+        or os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")
+        or os.getenv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY")
+        or ""
+    ).strip()
     if not url or not key or url.startswith("https://your-project"):
         return None
     try:
